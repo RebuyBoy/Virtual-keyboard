@@ -51,7 +51,7 @@ const Keyboard = {
     const textarea = document.createElement('textarea');
     textarea.classList.add('textarea');
     textarea.setAttribute('readonly', true);
-    textarea.setAttribute('placeholder', 'ALT+LeftShift => Change language');
+    textarea.setAttribute('placeholder', 'ALT+LeftShift => Change language\nОперационная система: macOS\nCaps Lock works another way');
     return textarea;
   },
 
@@ -103,11 +103,10 @@ const Keyboard = {
   },
 
   keyEventsVirtual(key) {
+    const keyData = key.innerText;
     key.addEventListener('mousedown', () => {
-      const keyData = key.innerText;
       key.classList.toggle('key_pressed');
       if (keyData === 'Shift' && this.isAlt) {
-        this.isShift = this.isShift ? !this.isShift : this.isShift;
         this.handleLanguage();
       } else if (keyData === 'Shift') {
         this.handleShift();
@@ -128,19 +127,15 @@ const Keyboard = {
     key.addEventListener('mouseup', () => {
       if (!['Caps Lock', 'Shift', 'Ctrl', 'Alt'].includes(key.innerText)) {
         key.classList.remove('key_pressed');
-        const keyData = key.innerText;
 
         if (keyData !== 'EN' && keyData !== 'RU') {
           this.handleInput(keyData);
         }
       }
-      if (key.innerText === 'Shift' && this.isAlt) {
-        key.classList.remove('key_pressed');
-      }
     });
 
     key.addEventListener('mouseout', () => {
-      if (!['Caps Lock', 'Shift', 'Ctrl', 'Alt'].includes(key.innerText)) {
+      if (!['Caps Lock', 'Shift', 'Ctrl', 'Alt'].includes(keyData)) {
         key.classList.remove('key_pressed');
       }
     });
@@ -150,9 +145,12 @@ const Keyboard = {
     document.addEventListener('keydown', (event) => {
       const { code } = event;
       if (this.elements.keys.has(code)) {
-        this.elements.keys.get(code).classList.add('key_pressed');
+        if (code !== 'CapsLock' || code !== 'LeftShift') {
+          this.elements.keys.get(code).classList.add('key_pressed');
+        }
         if (code === 'CapsLock' && this.osName === 'Mac') {
           this.elements.keys.get(code).lastChild.classList.toggle('caps_marker_active');
+          this.elements.keys.get(code).classList.toggle('key_pressed');
           this.handleCapsLock();
           this.isCapsLock = !this.isCapsLock;
         } else if ((code === 'ShiftLeft' && this.isAlt) || code === 'MetaLeft') {
@@ -161,9 +159,9 @@ const Keyboard = {
           this.handleShift();
           this.isShift = !this.isShift;
         } else if (code === 'AltLeft' || code === 'AltRight') {
-          this.isAlt = !this.isAlt;
+          this.isAlt = true;
         } else if (code === 'ControlRight' || code === 'ControlLeft') {
-          this.isCtrl = !this.isCtrl;
+          this.isCtrl = true;
         }
       }
     });
@@ -171,19 +169,24 @@ const Keyboard = {
     document.addEventListener('keyup', (event) => {
       const { code } = event;
       if (this.elements.keys.has(code)) {
-        this.elements.keys.get(code).classList.remove('key_pressed');
+        if (code !== 'CapsLock') {
+          this.elements.keys.get(code).classList.remove('key_pressed');
+        }
         if (code === 'CapsLock') {
-          this.handleCapsLock();
           this.elements.keys.get(code).lastChild.classList.toggle('caps_marker_active');
+          this.elements.keys.get(code).classList.toggle('key_pressed');
+          this.handleCapsLock();
           this.isCapsLock = !this.isCapsLock;
         } else if (code === 'AltLeft' || code === 'AltRight') {
-          this.isAlt = !this.isAlt;
+          this.isAlt = false;
         } else if (code === 'ControlRight' || code === 'ControlLeft') {
-          this.isCtrl = !this.isCtrl;
-        } else if (code === 'ShiftLeft' || code === 'ShiftRight') {
+          this.isCtrl = false;
+        } else if ((code === 'ShiftLeft' || code === 'ShiftRight') && !this.isAlt) {
           this.handleShift();
+          this.elements.keys.get('ShiftLeft').classList.remove('key_pressed');
+          this.elements.keys.get('ShiftRight').classList.remove('key_pressed');
           this.isShift = !this.isShift;
-        } else if (code !== 'MetaLeft') {
+        } else if (!['ShiftRight', 'ShiftLeft', 'MetaLeft', 'Alt', 'Ctrl'].includes(code)) {
           this.handleInput(code);
         }
       }

@@ -1,0 +1,121 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: gray;
+  margin: auto;
+  margin-top: 25px;
+}
+
+.key-container {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 1100px;
+}
+
+.key {
+  margin: 5px;
+  border-radius: 10px;
+  position: relative;
+  -webkit-box-shadow: -2px 2px grey;
+          box-shadow: -2px 2px grey;
+  outline: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 60px;
+  height: 60px;
+  font-size: 1.3rem;
+}
+
+.key_small {
+  width: 70px;
+}
+
+.key_enter {
+  width: 130px;
+}
+
+.key_ctrl {
+  width: 100px;
+}
+
+.key_big {
+  width: 140px;
+}
+
+.key_shift_right {
+  width: 100px;
+}
+
+.key_wide {
+  width: 410px;
+}
+
+.main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto;
+}
+
+.textarea {
+  cursor: default;
+  font-size: 1.3rem;
+  border: 15px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  outline: none;
+  resize: none;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  height: 40vh;
+  width: 1100px;
+}
+
+.key_pressed {
+  background-color: grey;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.caps_marker {
+  right: 8px;
+  top: 8px;
+  position: absolute;
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  background-color: grey;
+}
+
+.caps_marker_active {
+  background-color: #81df81;
+}
+/*# sourceMappingURL=style.css.map */
